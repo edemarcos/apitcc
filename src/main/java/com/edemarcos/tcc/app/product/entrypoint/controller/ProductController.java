@@ -7,20 +7,20 @@ import com.edemarcos.tcc.app.product.entrypoint.controller.request.ProductReques
 import com.edemarcos.tcc.app.product.entrypoint.controller.response.ProductResponse;
 import com.edemarcos.tcc.domain.category.entities.Category;
 import com.edemarcos.tcc.domain.product.entities.Product;
+import com.edemarcos.tcc.domain.product.usecases.FindByIdProductUseCase;
 import com.edemarcos.tcc.domain.product.usecases.InsertProductUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/product")
 public class ProductController {
     @Autowired
     private InsertProductUseCase insertProductUseCase;
+    @Autowired
+    private FindByIdProductUseCase findByIdProductUseCase;
     @Autowired
     private ProductMapperController productMapperController;
     @PostMapping
@@ -29,5 +29,11 @@ public class ProductController {
         Product createdProduct = insertProductUseCase.execute(product);
         ProductResponse productResponse = productMapperController.toProductResponse(createdProduct);
         return ResponseEntity.status(HttpStatus.CREATED).body(productResponse);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findById(@PathVariable final Long id) {
+        Product product = findByIdProductUseCase.execute(id);
+        ProductResponse productResponse = productMapperController.toProductResponse(product);
+        return ResponseEntity.status(HttpStatus.OK).body(productResponse);
     }
 }

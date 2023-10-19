@@ -9,13 +9,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProductMapper {
     public Product toProduct(ProductModel productModel) {
+        var category = new CategoryMapper().toCategory(productModel.getCategory());
+        var supplier = new SupplierMapper().toSupplier(productModel.getSupplier());
         return new Product(
                 productModel.getId(),
                 productModel.getName(),
-                productModel.getCategory().getId(),
+                category,
                 productModel.getDescription(),
                 productModel.getUnitPrice(),
-                productModel.getSupplier().getId(),
+                supplier,
                 productModel.getInitialQuantity(),
                 productModel.getRegistrationDate(),
                 productModel.getWeight(),

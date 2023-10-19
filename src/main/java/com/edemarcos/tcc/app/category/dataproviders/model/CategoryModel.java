@@ -18,6 +18,5 @@ public class CategoryModel {
     private Long id;
     private String name;
     private String description;
-    //@OneToMany(mappedBy = "category")
-    //private List<ProductModel> products;
+
 }

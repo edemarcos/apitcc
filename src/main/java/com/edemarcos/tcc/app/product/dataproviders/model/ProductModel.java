@@ -23,12 +23,12 @@ public class ProductModel {
     private Long id;
     private String name;
     @ManyToOne
-    @JoinColumn(name = "category")
+    @JoinColumn(name = "category_id")
     private CategoryModel category;
     private String description;
     private Double unitPrice;
     @ManyToOne
-    @JoinColumn(name = "supplier")
+    @JoinColumn(name = "supplier_id")
     private SupplierModel supplier;
     private Integer initialQuantity;
     private LocalDateTime registrationDate;

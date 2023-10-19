@@ -2,7 +2,6 @@ package com.edemarcos.tcc.domain.product.usecasesimpl;
 
 import com.edemarcos.tcc.domain.category.entities.Category;
 import com.edemarcos.tcc.domain.category.usecases.FindByIdCategoryUseCase;
-import com.edemarcos.tcc.domain.customer.entities.Customer;
 import com.edemarcos.tcc.domain.product.dataproviders.ProductDataProvider;
 import com.edemarcos.tcc.domain.product.entities.Product;
 import com.edemarcos.tcc.domain.product.enums.ProductStatus;
@@ -26,8 +25,8 @@ public class InsertProductUseCaseImpl implements InsertProductUseCase {
     }
     @Override
     public Product execute(Product product) {
-        Category categoryOfInsert = findByIdCategoryUse.execute(product.getCategoryId());
-        Supplier supplierOfInsert = findSupplierByIdUseCase.execute(product.getSupplierId());
+        Category categoryOfInsert = findByIdCategoryUse.execute(product.getCategory().getId());
+        Supplier supplierOfInsert = findSupplierByIdUseCase.execute(product.getSupplier().getId());
 
         if (categoryOfInsert == null) {
             throw new ProductInsertionException("A categoria informada não existe.");

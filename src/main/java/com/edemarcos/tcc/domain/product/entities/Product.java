@@ -10,33 +10,31 @@ import java.util.Date;
 public class Product {
     private Long id;
     private String name;
-    private Long categoryId;
+    private Category category;
     private String description;
     private Double unitPrice;
-    private Long supplierId;
+    private Supplier supplier;
     private Integer initialQuantity;
     private LocalDateTime registrationDate;
     private Double weight;
     private String dimensions;
-    private ProductStatus status;
-    private Category category;
-    private Supplier supplier;
+    private int status;
 
     public Product() {
     }
 
-    public Product(Long id, String name, Long categoryId, String description, Double unitPrice, Long supplierId, Integer initialQuantity, LocalDateTime registrationDate, Double weight, String dimensions, ProductStatus status) {
+    public Product(Long id, String name, Category category, String description, Double unitPrice, Supplier supplier, Integer initialQuantity, LocalDateTime registrationDate, Double weight, String dimensions, ProductStatus status) {
         this.id = id;
         this.name = name;
-        this.categoryId = categoryId;
+        this.category = category;
         this.description = description;
         this.unitPrice = unitPrice;
-        this.supplierId = supplierId;
+        this.supplier = supplier;
         this.initialQuantity = initialQuantity;
         this.registrationDate = registrationDate;
         this.weight = weight;
         this.dimensions = dimensions;
-        this.status = status;
+        this.status = status.getValue();
     }
 
     public Long getId() {
@@ -104,36 +102,25 @@ public class Product {
     }
 
     public ProductStatus getStatus() {
-        return status;
+        return ProductStatus.valueOf(status);
     }
 
     public void setStatus(ProductStatus status) {
-        this.status = status;
+        this.status = status.getValue();
     }
 
-    public Long getCategoryId() {
-        return categoryId;
-    }
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
-    }
     public void setCategory(Category category) {
         this.category = category;
     }
+
     public Category getCategory() {
         return category;
     }
 
-    public Long getSupplierId() {
-        return supplierId;
-    }
-
-    public void setSupplierId(Long supplierId) {
-        this.supplierId = supplierId;
-    }
     public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
     }
+
     public Supplier getSupplier() {
         return supplier;
     }
