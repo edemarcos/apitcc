@@ -9,6 +9,9 @@ import com.edemarcos.tcc.domain.supplier.dataproviders.SupplierDataProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class ProductMapperController {
     @Autowired
@@ -47,5 +50,13 @@ public class ProductMapperController {
         productResponse.setDimensions(product.getDimensions());
         productResponse.setStatus(product.getStatus().toString());
         return productResponse;
+    }
+
+    public List<ProductResponse> toProductResponseList(List<Product> products) {
+        var productResponseList = new ArrayList<ProductResponse>();
+        for (Product product : products) {
+            productResponseList.add(toProductResponse(product));
+        }
+        return productResponseList;
     }
 }

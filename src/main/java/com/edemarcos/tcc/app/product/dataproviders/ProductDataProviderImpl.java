@@ -12,6 +12,8 @@ import com.edemarcos.tcc.domain.supplier.entities.Supplier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class ProductDataProviderImpl implements ProductDataProvider {
     @Autowired
@@ -26,7 +28,6 @@ public class ProductDataProviderImpl implements ProductDataProvider {
 
         return productMapper.toProduct(savedProductModel);
     }
-
     @Override
     public Product findById(Long id) {
 
@@ -36,9 +37,19 @@ public class ProductDataProviderImpl implements ProductDataProvider {
     }
 
     @Override
-    public void update(Product product) {
+    public List<Product> findAll() {
+        List<ProductModel> productModelList = productRepository.findAll();
 
+        return productMapper.toProductList(productModelList);
     }
+
+    @Override
+    public void update(Product product) {
+        ProductModel productModel = productMapper.toProductModel(product);
+
+        productRepository.save(productModel);
+    }
+
 
     @Override
     public void delete(Long id) {

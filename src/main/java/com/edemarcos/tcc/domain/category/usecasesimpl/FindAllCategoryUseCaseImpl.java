@@ -16,10 +16,11 @@ public class FindAllCategoryUseCaseImpl implements FindAllCategoryUseCase {
     }
     @Override
     public List<Category> execute() {
-        var categoryList = categoryDataProvider.findAll();
-        if (categoryList == null) {
+        try {
+            var categoryList = categoryDataProvider.findAll();
+            return categoryList;
+        } catch (CategoryNotFoundException e) {
             throw new CategoryNotFoundException(null);
         }
-        return categoryList;
     }
 }
