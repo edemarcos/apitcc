@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class ProductRequest {
-    private Long id;
+
     private String name;
     private Long categoryId;
     private String description;

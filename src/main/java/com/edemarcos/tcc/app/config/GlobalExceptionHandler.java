@@ -10,6 +10,8 @@ import com.edemarcos.tcc.domain.customer.exceptions.CustomerUpdateException;
 import com.edemarcos.tcc.domain.supplier.exceptions.SupplierInsertionException;
 import com.edemarcos.tcc.domain.supplier.exceptions.SupplierNotFoundException;
 import com.edemarcos.tcc.domain.supplier.exceptions.SupplierUpdateException;
+import com.edemarcos.tcc.domain.user.exceptions.UserAlredyExistsException;
+import com.edemarcos.tcc.domain.user.exceptions.UserInsertionException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -67,6 +69,17 @@ public ResponseEntity<?> handleCustomerNotFoundException(CustomerNotFoundExcepti
     public ResponseEntity<?> handleSupplierUpdateException(SupplierUpdateException exception) {
         var errorResponse = new ErrorResponse(exception.getMessage(), HttpStatus.NOT_FOUND.value());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
+
+    @ExceptionHandler(UserAlredyExistsException.class)
+    public ResponseEntity<?> handleUserAlredyExistsException(UserAlredyExistsException exception) {
+        var errorResponse = new ErrorResponse(exception.getMessage(), HttpStatus.CONFLICT.value());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+    }
+    @ExceptionHandler(UserInsertionException.class)
+    public ResponseEntity<?> handleUserInsertionException(UserInsertionException exception) {
+        var errorResponse = new ErrorResponse(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
 
 
