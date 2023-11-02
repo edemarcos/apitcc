@@ -21,7 +21,7 @@ public class UpdateCustomerUseCaseImpl implements UpdateCustomerUseCase {
     }
     @Override
     public void execute(Customer customer, Long id) {
-        Customer customerUpdate = findByIdCustomerUseCase.findById(id);
+        Customer customerUpdate = findByIdCustomerUseCase.execute(id);
         customer.setId(id);
 
         Field[] fields = Customer.class.getDeclaredFields();

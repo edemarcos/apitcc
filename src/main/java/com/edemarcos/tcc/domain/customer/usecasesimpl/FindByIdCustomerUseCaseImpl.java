@@ -13,7 +13,7 @@ public class FindByIdCustomerUseCaseImpl implements FindByIdCustomerUseCase {
         this.customerDataProvider = customerDataProvider;
     }
     @Override
-    public Customer findById(Long id) {
+    public Customer execute(Long id) {
         var customer = customerDataProvider.findById(id);
         if (customer == null) {
             throw new CustomerNotFoundException(id);

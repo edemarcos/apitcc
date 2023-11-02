@@ -27,7 +27,11 @@ public class UserDataProviderImpl implements UserDataProvider {
 
     @Override
     public User findById(Long id) {
-        return null;
+
+        var userModel = userRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("User not found"));
+
+        return userMapper.toEntity(userModel);
     }
 
     @Override

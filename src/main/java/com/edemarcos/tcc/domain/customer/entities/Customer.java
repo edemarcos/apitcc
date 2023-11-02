@@ -1,9 +1,10 @@
 package com.edemarcos.tcc.domain.customer.entities;
 
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Customer {
+
     private Long id;
     private String name;
     private String cpf;

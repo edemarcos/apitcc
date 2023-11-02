@@ -9,6 +9,8 @@ import com.edemarcos.tcc.domain.user.usecases.InsertUserUseCase;
 
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 public class InsertUserUseCaseImpl implements InsertUserUseCase {
@@ -26,8 +28,10 @@ public class InsertUserUseCaseImpl implements InsertUserUseCase {
             throw new UserAlredyExistsException("Usuario já existe : " + userAlreadyExists.getEmail());
         }
 
-        if ( user.getRegistrationDate() == null ) {
-            user.setRegistrationDate(LocalDateTime.now());
+        if (user.getRegistrationDate() == null) {
+            ZoneId zoneId = ZoneId.of("America/Sao_Paulo");
+            ZonedDateTime zonedDateTime = ZonedDateTime.now(zoneId);
+            user.setRegistrationDate(zonedDateTime.toLocalDateTime());
         }
 
         if ( user.getRole() == null ) {

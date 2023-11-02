@@ -32,6 +32,7 @@ public class SecurityConfigurations {
                         .requestMatchers( "/api/v1/category").permitAll()
                         .requestMatchers( "/api/v1/customer").permitAll()
                         .requestMatchers( "/api/v1/user").permitAll()
+                        .requestMatchers( "/api/v1/order").permitAll()
                         //.requestMatchers(HttpMethod.POST, "/product").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )

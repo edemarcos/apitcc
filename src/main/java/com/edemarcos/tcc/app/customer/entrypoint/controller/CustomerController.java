@@ -1,6 +1,5 @@
 package com.edemarcos.tcc.app.customer.entrypoint.controller;
 
-import com.edemarcos.tcc.app.customer.dataproviders.mapper.CustomerMapper;
 import com.edemarcos.tcc.app.customer.entrypoint.controller.mapper.CustomerMapperController;
 import com.edemarcos.tcc.app.customer.entrypoint.controller.request.CustomerRequest;
 import com.edemarcos.tcc.app.customer.entrypoint.controller.response.CustomerResponse;
@@ -49,7 +48,7 @@ public class CustomerController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CustomerResponse> findById(@PathVariable final Long id){
-        var customer = findByIdCustomerUseCase.findById(id);
+        var customer = findByIdCustomerUseCase.execute(id);
         var customerResponse = customerMapperController.toCustomerResponse(customer);
         return ResponseEntity.ok().body(customerResponse);
     }

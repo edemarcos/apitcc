@@ -14,7 +14,7 @@ public class DeleteCustomerByIdUseCaseImpl implements DeleteCustomerByIdUseCase 
     }
     @Override
     public void delete(Long id) {
-        findByIdCustomerUseCase.findById(id);
+        findByIdCustomerUseCase.execute(id);
         customerDataProvider.delete(id);
 
     }

@@ -33,6 +33,7 @@ public class UserModel implements UserDetails {
     private LocalDateTime registrationDate;
     private Boolean activated;
 
+
     public UserModel(String login, String encryptedPassword, UserRole role) {
         this.login = login;
         this.password = encryptedPassword;
