@@ -1,6 +1,5 @@
 package com.edemarcos.tcc.app.product.entrypoint.controller.mapper;
 
-import com.edemarcos.tcc.app.category.entrypoint.controller.mapper.CategoryMapperController;
 import com.edemarcos.tcc.app.product.entrypoint.controller.request.ProductRequest;
 import com.edemarcos.tcc.app.product.entrypoint.controller.response.ProductResponse;
 import com.edemarcos.tcc.domain.category.dataproviders.CategoryDataProvider;
@@ -29,7 +28,7 @@ public class ProductMapperController {
         product.setDescription(productRequest.getDescription());
         product.setUnitPrice(productRequest.getUnitPrice());
         product.setSupplier(supplierModel);
-        product.setInitialQuantity(productRequest.getInitialQuantity());
+        product.setQuantity(productRequest.getInitialQuantity());
         product.setRegistrationDate(productRequest.getRegistrationDate());
         product.setWeight(productRequest.getWeight());
         product.setDimensions(productRequest.getDimensions());
@@ -44,7 +43,7 @@ public class ProductMapperController {
         productResponse.setDescription(product.getDescription());
         productResponse.setUnitPrice(product.getUnitPrice());
         productResponse.setSupplier(product.getSupplier());
-        productResponse.setInitialQuantity(product.getInitialQuantity());
+        productResponse.setInitialQuantity(product.getQuantity());
         productResponse.setRegistrationDate(product.getRegistrationDate());
         productResponse.setWeight(product.getWeight());
         productResponse.setDimensions(product.getDimensions());

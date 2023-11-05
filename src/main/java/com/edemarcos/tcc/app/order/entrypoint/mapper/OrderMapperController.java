@@ -27,6 +27,7 @@ public class OrderMapperController {
         order.setStatus(orderRequest.getStatus());
         order.setCustomer(customerModel);
         order.setUser(supplierModel);
+        order.setOrderItems(new OrderItemMapperController().toOrderItemList(orderRequest.getItems()));
         return order;
     }
 
@@ -36,7 +37,8 @@ public class OrderMapperController {
         orderResponse.setOrderDate(order.getOrderDate());
         orderResponse.setStatus(order.getStatus());
         orderResponse.setCustomer(order.getCustomer());
-        orderResponse.setUser(order.getUser());
+        orderResponse.setUser(order.getUser().getName());
+        orderResponse.setItems(new OrderItemMapperController().toOrderItemResponseList(order.getOrderItems()));
         return orderResponse;
     }
 

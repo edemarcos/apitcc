@@ -6,6 +6,7 @@ import com.edemarcos.tcc.domain.order.dataproviders.OrderDataProvider;
 import com.edemarcos.tcc.domain.order.entities.Order;
 import com.edemarcos.tcc.domain.order.enums.OrderStatus;
 import com.edemarcos.tcc.domain.order.exceptions.OrderInsertionException;
+import com.edemarcos.tcc.domain.order.usecases.GetProductOrderUseCase;
 import com.edemarcos.tcc.domain.order.usecases.InsertOrderUseCase;
 import com.edemarcos.tcc.domain.user.entities.User;
 import com.edemarcos.tcc.domain.user.usecases.FindByIdUserUseCase;
@@ -18,10 +19,16 @@ public class InsertOrderUseCaseImpl implements InsertOrderUseCase {
     private FindByIdCustomerUseCase findByIdCustomerUseCase;
     private FindByIdUserUseCase findByIdUserUseCase;
 
-    public InsertOrderUseCaseImpl(OrderDataProvider orderDataProvider, FindByIdCustomerUseCase findByIdCustomerUseCase, FindByIdUserUseCase findByIdUserUseCase) {
+    private GetProductOrderUseCase getProductOrderUseCase;
+
+    public InsertOrderUseCaseImpl(OrderDataProvider orderDataProvider,
+                                  FindByIdCustomerUseCase findByIdCustomerUseCase,
+                                  FindByIdUserUseCase findByIdUserUseCase,
+                                  GetProductOrderUseCase getProductOrderUseCase) {
         this.orderDataProvider = orderDataProvider;
         this.findByIdCustomerUseCase = findByIdCustomerUseCase;
         this.findByIdUserUseCase = findByIdUserUseCase;
+        this.getProductOrderUseCase = getProductOrderUseCase;
     }
 
     @Override
@@ -36,12 +43,21 @@ public class InsertOrderUseCaseImpl implements InsertOrderUseCase {
             throw new OrderInsertionException("O usuario informado não existe.");
         }
 
+        var orderItems = getProductOrderUseCase.execute(order.getOrderItems());
+
+        order.setOrderItems(orderItems);
+
         if (order.getStatus() == null) {
             order.setStatus(OrderStatus.PENDING);
         }
 
-        order.setOrderDate(order.getOrderDate() == null ? LocalDateTime.now() : order.getOrderDate());
+        order.setOrderDate(LocalDateTime.now());
+        var orderInserted = orderDataProvider.insert(order);
 
-        return orderDataProvider.insert(order);
+        orderItems.stream().forEach(orderItem -> orderItem.setOrder(orderInserted));
+
+        orderInserted.setOrderItems(orderDataProvider.insertOrderItems(orderItems));
+
+        return orderInserted;
     }
 }

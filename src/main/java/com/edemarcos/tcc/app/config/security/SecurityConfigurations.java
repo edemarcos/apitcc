@@ -20,19 +20,22 @@ public class SecurityConfigurations {
     @Autowired
     SecurityFilter securityFilter;
 
+    private static final String[] AUTH_WHITELIST = {
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/swagger-ui.html",
+            "/swagger-ui/**",
+            "/auth/login/**",
+            "/api/v1/**",
+    };
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return  httpSecurity
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers( "/auth/login").permitAll()
-                        .requestMatchers( "/api/v1/product").permitAll()
-                        .requestMatchers( "/api/v1/supplier").permitAll()
-                        .requestMatchers( "/api/v1/category").permitAll()
-                        .requestMatchers( "/api/v1/customer").permitAll()
-                        .requestMatchers( "/api/v1/user").permitAll()
-                        .requestMatchers( "/api/v1/order").permitAll()
+                                .requestMatchers(AUTH_WHITELIST).permitAll()
                         //.requestMatchers(HttpMethod.POST, "/product").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )

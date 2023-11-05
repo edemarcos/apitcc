@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -28,4 +29,17 @@ public class OrderModel {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserModel user;
+
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+    private List<OrderItemModel> orderItems;
+
+    public OrderModel(Long id, LocalDateTime orderDate, OrderStatus status, CustomerModel customer, UserModel user) {
+        this.id = id;
+        this.orderDate = orderDate;
+        this.status = status;
+        this.customer = customer;
+        this.user = user;
+    }
+
+
 }

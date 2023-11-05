@@ -5,6 +5,7 @@ import com.edemarcos.tcc.domain.order.enums.OrderStatus;
 import com.edemarcos.tcc.domain.user.entities.User;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Order {
     private Long id;
@@ -12,17 +13,29 @@ public class Order {
     private int status;
     private Customer customer;
     private User user;
+    private List<OrderItem> orderItems;
 
     public Order() {
     }
 
-    public Order(Long id, LocalDateTime orderDate, OrderStatus status, Customer customer, User user) {
+
+    public Order(Long id, LocalDateTime orderDate, int status, Customer customer, User user, List<OrderItem> orderItems) {
         this.id = id;
         this.orderDate = orderDate;
-        this.status = status.getValue();
+        this.status = status;
+        this.customer = customer;
+        this.user = user;
+        this.orderItems = orderItems;
+    }
+
+    public Order(Long id, LocalDateTime orderDate, int value, Customer customer, User user) {
+        this.id = id;
+        this.orderDate = orderDate;
+        this.status = value;
         this.customer = customer;
         this.user = user;
     }
+
 
     public Long getId() {
         return id;
@@ -63,4 +76,13 @@ public class Order {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
+    }
+
 }

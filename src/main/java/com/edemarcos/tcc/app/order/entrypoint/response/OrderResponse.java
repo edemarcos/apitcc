@@ -6,6 +6,7 @@ import com.edemarcos.tcc.domain.user.entities.User;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class OrderResponse {
@@ -14,5 +15,6 @@ public class OrderResponse {
     private LocalDateTime orderDate;
     private OrderStatus status;
     private Customer customer;
-    private User user;
+    private String user;
+    private List<OrderItemResponse> items;
 }

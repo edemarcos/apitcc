@@ -5,7 +5,6 @@ import com.edemarcos.tcc.domain.product.enums.ProductStatus;
 import com.edemarcos.tcc.domain.supplier.entities.Supplier;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class Product {
     private Long id;
@@ -14,7 +13,7 @@ public class Product {
     private String description;
     private Double unitPrice;
     private Supplier supplier;
-    private Integer initialQuantity;
+    private Integer quantity;
     private LocalDateTime registrationDate;
     private Double weight;
     private String dimensions;
@@ -23,14 +22,14 @@ public class Product {
     public Product() {
     }
 
-    public Product(Long id, String name, Category category, String description, Double unitPrice, Supplier supplier, Integer initialQuantity, LocalDateTime registrationDate, Double weight, String dimensions, ProductStatus status) {
+    public Product(Long id, String name, Category category, String description, Double unitPrice, Supplier supplier, Integer quantity, LocalDateTime registrationDate, Double weight, String dimensions, ProductStatus status) {
         this.id = id;
         this.name = name;
         this.category = category;
         this.description = description;
         this.unitPrice = unitPrice;
         this.supplier = supplier;
-        this.initialQuantity = initialQuantity;
+        this.quantity = quantity;
         this.registrationDate = registrationDate;
         this.weight = weight;
         this.dimensions = dimensions;
@@ -69,12 +68,12 @@ public class Product {
         this.unitPrice = unitPrice;
     }
 
-    public Integer getInitialQuantity() {
-        return initialQuantity;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public void setInitialQuantity(Integer initialQuantity) {
-        this.initialQuantity = initialQuantity;
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     public LocalDateTime getRegistrationDate() {
