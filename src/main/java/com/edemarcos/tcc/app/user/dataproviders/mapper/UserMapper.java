@@ -5,6 +5,8 @@ import com.edemarcos.tcc.domain.user.entities.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class UserMapper {
     public UserModel toModel(User user) {
@@ -39,5 +41,12 @@ public class UserMapper {
                 userDetails.getPassword(),
                 userDetails.getAuthorities()
         );
+    }
+
+    public List<User> toModelList(List<UserModel> usersList) {
+        var userList = usersList.stream()
+                .map(this::toEntity)
+                .toList();
+        return userList;
     }
 }

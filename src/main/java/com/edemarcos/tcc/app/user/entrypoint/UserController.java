@@ -5,6 +5,7 @@ import com.edemarcos.tcc.app.user.entrypoint.mapper.UserMapperController;
 import com.edemarcos.tcc.app.user.entrypoint.request.UserRequest;
 import com.edemarcos.tcc.app.user.entrypoint.response.UserResponse;
 import com.edemarcos.tcc.domain.user.entities.User;
+import com.edemarcos.tcc.domain.user.usecases.FindAllUserUseCase;
 import com.edemarcos.tcc.domain.user.usecases.FindByIdUserUseCase;
 import com.edemarcos.tcc.domain.user.usecases.InsertUserUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,13 @@ public class UserController {
 
     private FindByIdUserUseCase findByIdUserUseCase;
 
-    public UserController(InsertUserUseCase insertUserUseCase, UserMapperController userMapperController, FindByIdUserUseCase findByIdUserUseCase) {
+    private FindAllUserUseCase findAllUserUseCase;
+
+    public UserController(InsertUserUseCase insertUserUseCase, UserMapperController userMapperController, FindByIdUserUseCase findByIdUserUseCase, FindAllUserUseCase findAllUserUseCase) {
         this.insertUserUseCase = insertUserUseCase;
         this.userMapperController = userMapperController;
         this.findByIdUserUseCase = findByIdUserUseCase;
+        this.findAllUserUseCase = findAllUserUseCase;
     }
 
     @PostMapping
@@ -44,5 +48,11 @@ public class UserController {
         var user = findByIdUserUseCase.execute(id);
         var userResponse = userMapperController.toUserResponse(user);
         return ResponseEntity.ok().body(userResponse);
+    }
+
+    @GetMapping
+    public ResponseEntity<?> findAll(){
+        var users = findAllUserUseCase.execute();
+        return ResponseEntity.ok().body(users);
     }
 }

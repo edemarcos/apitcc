@@ -36,7 +36,13 @@ public class UserDataProviderImpl implements UserDataProvider {
 
     @Override
     public List<User> findAll() {
-        return null;
+        int num = userRepository.findAll().size();
+        System.out.println(num);
+        List<UserModel> usersListModel = userRepository.findAll();
+
+        var userList = userMapper.toModelList(usersListModel);
+
+        return userList;
     }
 
     @Override

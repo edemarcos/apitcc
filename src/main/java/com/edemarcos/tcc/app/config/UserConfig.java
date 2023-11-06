@@ -1,6 +1,7 @@
 package com.edemarcos.tcc.app.config;
 
 import com.edemarcos.tcc.domain.user.dataproviders.UserDataProvider;
+import com.edemarcos.tcc.domain.user.usecasesimpl.FindAllUserUseCaseImpl;
 import com.edemarcos.tcc.domain.user.usecasesimpl.FindByIdUserUseCaseImpl;
 import com.edemarcos.tcc.domain.user.usecasesimpl.InsertUserUseCaseImpl;
 import org.springframework.context.annotation.Bean;
@@ -16,5 +17,10 @@ public class UserConfig {
     @Bean
     public FindByIdUserUseCaseImpl findByIdUserUseCase(UserDataProvider userDataProvider) {
         return new FindByIdUserUseCaseImpl(userDataProvider);
+    }
+
+    @Bean
+    public FindAllUserUseCaseImpl findAllUserUseCase(UserDataProvider userDataProvider) {
+        return new FindAllUserUseCaseImpl(userDataProvider);
     }
 }
