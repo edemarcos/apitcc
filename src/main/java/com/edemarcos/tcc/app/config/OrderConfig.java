@@ -4,10 +4,9 @@ import com.edemarcos.tcc.app.order.entrypoint.mapper.OrderMapperController;
 import com.edemarcos.tcc.domain.customer.dataproviders.CustomerDataProvider;
 import com.edemarcos.tcc.domain.customer.usecases.FindByIdCustomerUseCase;
 import com.edemarcos.tcc.domain.order.dataproviders.OrderDataProvider;
+import com.edemarcos.tcc.domain.order.usecases.FindAllOrderUseCase;
 import com.edemarcos.tcc.domain.order.usecases.GetProductOrderUseCase;
-import com.edemarcos.tcc.domain.order.usecasesimpl.FindByIdOrderUseCaseImpl;
-import com.edemarcos.tcc.domain.order.usecasesimpl.GetProductOrderUseCaseImpl;
-import com.edemarcos.tcc.domain.order.usecasesimpl.InsertOrderUseCaseImpl;
+import com.edemarcos.tcc.domain.order.usecasesimpl.*;
 import com.edemarcos.tcc.domain.product.usecases.FindByIdProductUseCase;
 import com.edemarcos.tcc.domain.product.usecases.UpdateProductUseCase;
 import com.edemarcos.tcc.domain.user.dataproviders.UserDataProvider;
@@ -41,5 +40,22 @@ public class OrderConfig {
             UpdateProductUseCase updateProductUseCase
     ) {
         return new GetProductOrderUseCaseImpl(findByIdProductUseCase, updateProductUseCase);
+    }
+
+    @Bean
+    public FindAllOrderUseCaseImpl findAllOrderUseCaseImpl(
+            OrderDataProvider orderDataProvider
+    ) {
+        return new FindAllOrderUseCaseImpl(orderDataProvider);
+    }
+
+    @Bean
+    public UpdateOrderUseCaseImpl updateOrderUseCaseImpl(
+            OrderDataProvider orderDataProvider,
+            FindByIdCustomerUseCase findByIdCustomerUseCase,
+            FindByIdUserUseCase findByIdUserUseCase,
+            GetProductOrderUseCase getProductOrderUseCase
+    ) {
+        return new UpdateOrderUseCaseImpl(orderDataProvider, findByIdCustomerUseCase, findByIdUserUseCase, getProductOrderUseCase);
     }
 }

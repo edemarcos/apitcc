@@ -1,6 +1,7 @@
 package com.edemarcos.tcc.app.order.entrypoint.mapper;
 
 import com.edemarcos.tcc.app.order.entrypoint.request.OrderRequest;
+import com.edemarcos.tcc.app.order.entrypoint.request.OrderRequestUpdate;
 import com.edemarcos.tcc.app.order.entrypoint.response.OrderResponse;
 import com.edemarcos.tcc.domain.customer.dataproviders.CustomerDataProvider;
 import com.edemarcos.tcc.domain.order.entities.Order;
@@ -30,6 +31,17 @@ public class OrderMapperController {
         order.setOrderItems(new OrderItemMapperController().toOrderItemList(orderRequest.getItems()));
         return order;
     }
+    public Order toOrderUpdate (OrderRequestUpdate orderRequestUpdate) {
+        var customerModel = customerDataProvider.findById(orderRequestUpdate.getCustomerid());
+        var supplierModel = userDataProvider.findById(orderRequestUpdate.getUserid());
+        var order = new Order();
+        order.setOrderDate(orderRequestUpdate.getOrderDate());
+        order.setCustomer(customerModel);
+        order.setUser(supplierModel);
+        order.setOrderItems(new OrderItemMapperController().toOrderItemList(orderRequestUpdate.getItems()));
+        return order;
+    }
+
 
     public OrderResponse toOrderResponse(Order order) {
         var orderResponse = new OrderResponse();

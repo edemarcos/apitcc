@@ -49,10 +49,4 @@ public class ProductDataProviderImpl implements ProductDataProvider {
 
         productRepository.save(productModel);
     }
-
-
-    @Override
-    public void delete(Long id) {
-
-    }
 }

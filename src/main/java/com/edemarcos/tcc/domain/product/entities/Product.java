@@ -22,7 +22,9 @@ public class Product {
     public Product() {
     }
 
-    public Product(Long id, String name, Category category, String description, Double unitPrice, Supplier supplier, Integer quantity, LocalDateTime registrationDate, Double weight, String dimensions, ProductStatus status) {
+    public Product(Long id, String name, Category category, String description, Double unitPrice,
+                   Supplier supplier, Integer quantity, LocalDateTime registrationDate, Double weight,
+                   String dimensions, ProductStatus status) {
         this.id = id;
         this.name = name;
         this.category = category;

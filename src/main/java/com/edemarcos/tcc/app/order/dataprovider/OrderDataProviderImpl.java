@@ -60,10 +60,20 @@ public class OrderDataProviderImpl implements OrderDataProvider {
     }
 
     @Override
-    public void update(Order order) {
+    public Order update(Order order) {
         OrderModel orderModel = orderMapper.toOrderModel(order);
 
-        orderRepository.save(orderModel);
+        return orderMapper.toOrder(orderRepository.save(orderModel));
+    }
+
+    @Override
+    public List<OrderItem> updateOrderItems(List<OrderItem> orderItems) {
+        List<OrderItemModel> orderItensModel = orderItems.stream().map(orderItem -> {
+            OrderItemModel orderItemModel = orderItemMapper.toModel(orderItem);
+            return orderItemRepository.save(orderItemModel);
+        }).collect(Collectors.toList());
+
+        return orderItemMapper.toEntityList(orderItensModel);
     }
 
     @Override

@@ -35,12 +35,6 @@ public class UserModel implements UserDetails, Serializable {
     private Boolean activated;
 
 
-    public UserModel(String login, String encryptedPassword, UserRole role) {
-        this.login = login;
-        this.password = encryptedPassword;
-        this.role = role;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if(this.role == UserRole.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));

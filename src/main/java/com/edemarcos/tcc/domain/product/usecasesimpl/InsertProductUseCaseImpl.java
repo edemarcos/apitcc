@@ -18,7 +18,8 @@ public class InsertProductUseCaseImpl implements InsertProductUseCase {
     private ProductDataProvider productDataProvider;
     private FindByIdCategoryUseCase findByIdCategoryUse;
     private FindByIdSupplierUseCase findSupplierByIdUseCase;
-    public InsertProductUseCaseImpl(ProductDataProvider productDataProvider, FindByIdCategoryUseCase findByIdCategoryUse, FindByIdSupplierUseCase findSupplierByIdUseCase) {
+    public InsertProductUseCaseImpl(ProductDataProvider productDataProvider, FindByIdCategoryUseCase findByIdCategoryUse,
+                                    FindByIdSupplierUseCase findSupplierByIdUseCase) {
         this.productDataProvider = productDataProvider;
         this.findByIdCategoryUse = findByIdCategoryUse;
         this.findSupplierByIdUseCase = findSupplierByIdUseCase;

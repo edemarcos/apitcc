@@ -12,7 +12,7 @@
 	<artifactId>tcc</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>tcc</name>
-	<description>Projeto de uma API REST para TCC</description>
+	<description>Projeto de uma API REST utilizando Clean Architecture para TCC</description>
 	<properties>
 		<java.version>17</java.version>
 		<spring-cloud.version>2022.0.4</spring-cloud.version>

@@ -27,7 +27,7 @@ public class GetProductOrderUseCaseImpl implements GetProductOrderUseCase {
             throw new IllegalArgumentException("Não é possivel inserir produtos vazios em um pedido!");
         }
         orderItems.stream().map(orderItem -> {
-            Product product = findByIdProductUseCase.execute(orderItem.getId());
+            Product product = findByIdProductUseCase.execute(orderItem.getProduct().getId());
 
             orderItem.setProduct(product);
             orderItem.setOrder(orderItem.getOrder());

@@ -9,5 +9,4 @@ public interface ProductDataProvider {
     Product findById(Long id);
     List<Product> findAll();
     void update(Product product);
-    void delete(Long id);
 }

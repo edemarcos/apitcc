@@ -30,7 +30,8 @@ public class OrderModel {
     @JoinColumn(name = "user_id")
     private UserModel user;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+    @OneToMany
+    @JoinColumn(name = "order_id", referencedColumnName = "id")
     private List<OrderItemModel> orderItems;
 
     public OrderModel(Long id, LocalDateTime orderDate, OrderStatus status, CustomerModel customer, UserModel user) {
