@@ -8,6 +8,10 @@ import com.edemarcos.tcc.domain.product.usecases.FindAllProductUseCase;
 import com.edemarcos.tcc.domain.product.usecases.FindByIdProductUseCase;
 import com.edemarcos.tcc.domain.product.usecases.InsertProductUseCase;
 import com.edemarcos.tcc.domain.product.usecases.UpdateProductUseCase;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/product")
+@Tag(name = "Product", description = "Product API")
 public class ProductController {
     @Autowired
     private InsertProductUseCase insertProductUseCase;
@@ -24,24 +29,40 @@ public class ProductController {
     private FindByIdProductUseCase findByIdProductUseCase;
     @Autowired
     private FindAllProductUseCase findAllProductUseCase;
-
     @Autowired
     private UpdateProductUseCase updateProductUseCase;
     @Autowired
     private ProductMapperController productMapperController;
+
+    @Operation(summary = "Inserir novo produto", method = "POST")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Produto criado"),
+            @ApiResponse(responseCode = "500", description = "Falha ao inserir produto: Existem campos vazios"),
+    })
     @PostMapping
-    public ResponseEntity<?> insert(@RequestBody ProductRequest productRequest ) {
-        var product = productMapperController.toProduct(productRequest) ;
+    public ResponseEntity<?> insert(@RequestBody ProductRequest productRequest) {
+        var product = productMapperController.toProduct(productRequest);
         Product createdProduct = insertProductUseCase.execute(product);
         ProductResponse productResponse = productMapperController.toProductResponse(createdProduct);
         return ResponseEntity.status(HttpStatus.CREATED).body(productResponse);
     }
+
+    @Operation(summary = "Buscar produto por ID", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Produto encontrado"),
+            @ApiResponse(responseCode = "404", description = "Produto não encontrado"),
+    })
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable final Long id) {
         Product product = findByIdProductUseCase.execute(id);
         ProductResponse productResponse = productMapperController.toProductResponse(product);
         return ResponseEntity.status(HttpStatus.OK).body(productResponse);
     }
+
+    @Operation(summary = "Listar todos os produtos", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de produtos retornada com sucesso"),
+    })
     @GetMapping
     public ResponseEntity<List<ProductResponse>> findAll() {
         var products = findAllProductUseCase.execute();
@@ -49,6 +70,12 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(productResponseList);
     }
 
+    @Operation(summary = "Atualizar produto existente", method = "PUT")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Produto atualizado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Produto não encontrado"),
+            @ApiResponse(responseCode = "500", description = "Falha ao atualizar produto: Existem campos vazios"),
+    })
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@RequestBody ProductRequest productRequest, @PathVariable final Long id) {
         var product = productMapperController.toProduct(productRequest);

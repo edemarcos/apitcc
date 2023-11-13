@@ -6,6 +6,11 @@ import com.edemarcos.tcc.app.authentication.entrypoints.response.LoginResponseDT
 import com.edemarcos.tcc.app.user.dataproviders.mapper.UserMapper;
 import com.edemarcos.tcc.app.user.dataproviders.model.UserModel;
 import com.edemarcos.tcc.domain.authentication.usecases.GenerateTokenUseCase;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("auth")
+@Tag(name = "Authentication", description = "Authentication API")
 public class AuthenticationController {
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -31,7 +37,11 @@ public class AuthenticationController {
         this.userMapper = userMapper;
     }
 
-
+    @Operation(summary = "Realizar login", method = "POST")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Login realizado com sucesso"),
+            @ApiResponse(responseCode = "401", description = "Credenciais inválidas"),
+    })
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data){
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
