@@ -55,7 +55,9 @@ public class UpdateOrderUseCaseImpl implements UpdateOrderUseCase {
             throw new OrderInsertionException("O usuario informado não existe.");
         }
 
-        //orderItemsUpdate = getProductOrderUseCase.execute(orderOfUpdate.getOrderItems());
+        List<OrderItem> orderItemList = orderDataProvider.findOrderItemsByOrderId(orderOfUpdate.getId());
+
+        orderItemsUpdate = getProductOrderUseCase.execute(orderItemList);
 
         var orderItems = order.getOrderItems();
         List<OrderItem> orderItemsNewList = new ArrayList<>();

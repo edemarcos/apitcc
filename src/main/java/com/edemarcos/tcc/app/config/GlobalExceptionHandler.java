@@ -8,6 +8,7 @@ import com.edemarcos.tcc.domain.customer.exceptions.CustomerInsertionException;
 import com.edemarcos.tcc.domain.customer.exceptions.CustomerNotFoundException;
 import com.edemarcos.tcc.domain.customer.exceptions.CustomerUpdateException;
 import com.edemarcos.tcc.domain.order.exceptions.NoItemException;
+import com.edemarcos.tcc.domain.order.exceptions.OrderInsertionException;
 import com.edemarcos.tcc.domain.supplier.exceptions.SupplierInsertionException;
 import com.edemarcos.tcc.domain.supplier.exceptions.SupplierNotFoundException;
 import com.edemarcos.tcc.domain.supplier.exceptions.SupplierUpdateException;
@@ -87,6 +88,12 @@ public ResponseEntity<?> handleCustomerNotFoundException(CustomerNotFoundExcepti
     public ResponseEntity<?> handleNoItemException(NoItemException exception) {
         var errorResponse = new ErrorResponse(exception.getMessage(), HttpStatus.BAD_REQUEST.value());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
+    @ExceptionHandler(OrderInsertionException.class)
+    public ResponseEntity<?> handleOrderInsertionException(OrderInsertionException exception) {
+        var errorResponse = new ErrorResponse(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
 
 

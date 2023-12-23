@@ -10,6 +10,9 @@ import com.edemarcos.tcc.domain.category.usecases.FindByIdCategoryUseCase;
 import com.edemarcos.tcc.domain.category.usecases.InsertCategoryUseCase;
 import com.edemarcos.tcc.domain.category.usecases.UpdateCategoryUseCase;
 import io.swagger.v3.oas.annotations.Operation;
+
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -40,8 +43,18 @@ public class CategoryController {
             @ApiResponse(responseCode = "201", description = "Categoria criada com sucesso"),
             @ApiResponse(responseCode = "400", description = "Requisição inválida: Existem campos vazios"),
     })
-    @PostMapping
-    public ResponseEntity<CategoryResponse> createCategory(@RequestBody CategoryRequest categoryRequest) {
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            content = @Content(
+                    mediaType = "application/json",
+                    examples = @ExampleObject(
+                            value = "{\"name\": \"Perfumaria\", \"description\": \"Categoria que engloba produtos de fragrância como perfumes, " +
+                                    "colônias, desodorantes, sabonetes líquidos, etc.\"}"
+                    )
+            )
+    )
+    @PostMapping(produces = "application/json", consumes = "application/json")
+    public ResponseEntity<?> createCategory(@RequestBody CategoryRequest categoryRequest) {
+        System.out.println(categoryRequest);
         var category = categoryMapperController.toCategory(categoryRequest);
         Category createdCategory = insertCategoryUseCase.execute(category);
         CategoryResponse categoryResponse = categoryMapperController.toCategoryResponse(createdCategory);
@@ -54,6 +67,14 @@ public class CategoryController {
             @ApiResponse(responseCode = "404", description = "Categoria não encontrada"),
             @ApiResponse(responseCode = "400", description = "Requisição inválida: Existem campos vazios"),
     })
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            content = @Content(
+                    mediaType = "application/json",
+                    examples = @ExampleObject(
+                            value = "{\"name\": \"Perfumaria\", \"description\": \"Categoria atualizada com novas informações.\"}"
+                    )
+            )
+    )
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateCategory(@PathVariable final Long id, @RequestBody CategoryRequest categoryRequest) {
         var category = categoryMapperController.toCategory(categoryRequest);
