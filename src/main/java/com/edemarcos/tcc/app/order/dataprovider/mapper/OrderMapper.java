@@ -42,10 +42,8 @@ public class OrderMapper {
                 order.getStatus(),
                 customerModel,
                 userModel,
-                null
+                orderItemMapper.toModelList(order.getOrderItems())
         );
-        List<OrderItemModel> orderItemModels = orderItemMapper.toModelList(order.getOrderItems());
-        orderModel.setOrderItems(orderItemModels);
         return orderModel;
     }
 

@@ -12,21 +12,24 @@ import java.util.List;
 @Component
 public class ProductMapper {
     public Product toProduct(ProductModel productModel) {
-        var category = new CategoryMapper().toCategory(productModel.getCategory());
-        var supplier = new SupplierMapper().toSupplier(productModel.getSupplier());
-        return new Product(
-                productModel.getId(),
-                productModel.getName(),
-                category,
-                productModel.getDescription(),
-                productModel.getUnitPrice(),
-                supplier,
-                productModel.getQuantity(),
-                productModel.getRegistrationDate(),
-                productModel.getWeight(),
-                productModel.getDimensions(),
-                productModel.getStatus()
-        );
+        if (productModel != null){
+            var category = new CategoryMapper().toCategory(productModel.getCategory());
+            var supplier = new SupplierMapper().toSupplier(productModel.getSupplier());
+            return new Product(
+                    productModel.getId(),
+                    productModel.getName(),
+                    category,
+                    productModel.getDescription(),
+                    productModel.getUnitPrice(),
+                    supplier,
+                    productModel.getQuantity(),
+                    productModel.getRegistrationDate(),
+                    productModel.getWeight(),
+                    productModel.getDimensions(),
+                    productModel.getStatus()
+            );
+        }
+        return new Product();
     }
     public ProductModel toProductModel(Product product) {
         var categoryModel = new CategoryMapper().toCategoryModel(product.getCategory());

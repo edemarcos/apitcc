@@ -3,6 +3,7 @@ package com.edemarcos.tcc.app.order.entrypoint.mapper;
 import com.edemarcos.tcc.app.order.entrypoint.request.OrderRequest;
 import com.edemarcos.tcc.app.order.entrypoint.request.OrderRequestUpdate;
 import com.edemarcos.tcc.app.order.entrypoint.response.OrderResponse;
+import com.edemarcos.tcc.app.product.dataproviders.ProductDataProviderImpl;
 import com.edemarcos.tcc.domain.customer.dataproviders.CustomerDataProvider;
 import com.edemarcos.tcc.domain.order.entities.Order;
 import com.edemarcos.tcc.domain.user.dataproviders.UserDataProvider;
@@ -20,6 +21,8 @@ public class OrderMapperController {
 
     private UserDataProvider userDataProvider;
 
+    private ProductDataProviderImpl productDataProvider;
+
     public Order toOrder(OrderRequest orderRequest) {
         var customerModel = customerDataProvider.findById(orderRequest.getCustomerid());
         var supplierModel = userDataProvider.findById(orderRequest.getUserid());
@@ -28,7 +31,7 @@ public class OrderMapperController {
         order.setStatus(orderRequest.getStatus());
         order.setCustomer(customerModel);
         order.setUser(supplierModel);
-        order.setOrderItems(new OrderItemMapperController().toOrderItemList(orderRequest.getItems()));
+        order.setOrderItems(new OrderItemMapperController(productDataProvider).toOrderItemList(orderRequest.getItems()));
         return order;
     }
     public Order toOrderUpdate (OrderRequestUpdate orderRequestUpdate) {
@@ -38,7 +41,7 @@ public class OrderMapperController {
         order.setOrderDate(orderRequestUpdate.getOrderDate());
         order.setCustomer(customerModel);
         order.setUser(supplierModel);
-        order.setOrderItems(new OrderItemMapperController().toOrderItemList(orderRequestUpdate.getItems()));
+        order.setOrderItems(new OrderItemMapperController(productDataProvider).toOrderItemList(orderRequestUpdate.getItems()));
         return order;
     }
 
@@ -50,7 +53,7 @@ public class OrderMapperController {
         orderResponse.setStatus(order.getStatus());
         orderResponse.setCustomer(order.getCustomer());
         orderResponse.setUser(order.getUser().getName());
-        orderResponse.setItems(new OrderItemMapperController().toOrderItemResponseList(order.getOrderItems()));
+        orderResponse.setItems(new OrderItemMapperController(productDataProvider).toOrderItemResponseList(order.getOrderItems()));
         return orderResponse;
     }
 

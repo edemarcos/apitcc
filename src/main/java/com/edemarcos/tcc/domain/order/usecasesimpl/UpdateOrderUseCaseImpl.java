@@ -39,10 +39,16 @@ public class UpdateOrderUseCaseImpl implements UpdateOrderUseCase {
     @Override
     public Order execute(Order order, Long id) {
         Order orderOfUpdate = orderDataProvider.findById(id);
+        //talvez isso não precise
         var orderItemsUpdate = orderDataProvider.findOrderItemsByOrderId(id);
 
+        //var orderItemsUpdate = orderOfUpdate.getOrderItems();
         if (orderOfUpdate == null) {
             throw new OrderInsertionException("O pedido informado não existe.");
+        }
+
+        if (orderOfUpdate.getStatus() != OrderStatus.PENDING) {
+            throw new OrderInsertionException("O pedido já foi enviado e não pode ser alterado.");
         }
 
         Customer customerOfInsert = findByIdCustomerUseCase.execute(orderOfUpdate.getCustomer().getId());
@@ -55,36 +61,33 @@ public class UpdateOrderUseCaseImpl implements UpdateOrderUseCase {
             throw new OrderInsertionException("O usuario informado não existe.");
         }
 
-        List<OrderItem> orderItemList = orderDataProvider.findOrderItemsByOrderId(orderOfUpdate.getId());
-
-        orderItemsUpdate = getProductOrderUseCase.execute(orderItemList);
-
         var orderItems = order.getOrderItems();
-        List<OrderItem> orderItemsNewList = new ArrayList<>();
+        orderItems = getProductOrderUseCase.execute(orderItems);
+        var newOrderItems = new ArrayList<OrderItem>();
 
         for (int i = 0; i < orderItems.size(); i++) {
+            int igual = 0;
             for (int j = 0; j < orderItemsUpdate.size(); j++) {
-                if (orderItems.get(i).getId() == orderItemsUpdate.get(j).getProduct().getId()) {
+                if (orderItems.get(i).getProduct().getId() == orderItemsUpdate.get(j).getProduct().getId()) {
                     orderItemsUpdate.get(j).setQuantity(orderItems.get(i).getQuantity() + orderItemsUpdate.get(j).getQuantity());
-                    orderItemsUpdate.get(j).setTotalItem((orderItems.get(i).getQuantity() + orderItemsUpdate.get(j).getQuantity()) * orderItemsUpdate.get(j).getUnitPrice());
+                    orderItemsUpdate.get(j).setTotalItem(orderItems.get(i).getTotalItem() + orderItemsUpdate.get(j).getTotalItem());
+                    igual = 1;
                 }
-                orderItemsNewList.add( orderItems.get(i));
+            }
+            if (igual == 0) {
+                newOrderItems.add(orderItems.get(i));
             }
         }
 
-        orderItemsUpdate.addAll(orderItemsNewList);
-        orderOfUpdate.setOrderItems(orderItemsUpdate);
+        orderItemsUpdate.addAll(newOrderItems);
+        orderItemsUpdate.stream().forEach(orderItem -> orderItem.setOrderId(orderOfUpdate.getId()));
+        orderItems = orderItemsUpdate;
 
-        if (orderOfUpdate.getStatus() != OrderStatus.PENDING) {
-            throw new OrderInsertionException("O pedido já foi enviado e não pode ser alterado.");
-        }
+        orderOfUpdate.setOrderItems(orderItemsUpdate);
 
         orderOfUpdate.setOrderDate(LocalDateTime.now());
         order = orderOfUpdate;
         var orderInserted = orderDataProvider.update(order);
-
-        orderItemsUpdate.stream().forEach(orderItem -> orderItem.setOrder(orderInserted));
-        orderItems = orderItemsUpdate;
 
         orderInserted.setOrderItems(orderDataProvider.updateOrderItems(orderItems));
 

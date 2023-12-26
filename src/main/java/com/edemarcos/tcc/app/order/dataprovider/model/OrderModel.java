@@ -31,7 +31,7 @@ public class OrderModel {
     private UserModel user;
 
     @OneToMany
-    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    @JoinColumn(name = "orderId", referencedColumnName = "id")
     private List<OrderItemModel> orderItems;
 
     public OrderModel(Long id, LocalDateTime orderDate, OrderStatus status, CustomerModel customer, UserModel user) {

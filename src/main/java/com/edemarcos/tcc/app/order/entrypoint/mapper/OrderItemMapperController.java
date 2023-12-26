@@ -3,20 +3,34 @@ package com.edemarcos.tcc.app.order.entrypoint.mapper;
 import com.edemarcos.tcc.app.order.entrypoint.request.OrderItemRequest;
 import com.edemarcos.tcc.app.order.entrypoint.response.OrderItemProductResponse;
 import com.edemarcos.tcc.app.order.entrypoint.response.OrderItemResponse;
+import com.edemarcos.tcc.app.product.dataproviders.ProductDataProviderImpl;
+import com.edemarcos.tcc.app.product.dataproviders.model.ProductModel;
 import com.edemarcos.tcc.app.product.entrypoint.controller.mapper.ProductMapperController;
 import com.edemarcos.tcc.app.product.entrypoint.controller.response.ProductResponse;
 import com.edemarcos.tcc.domain.order.entities.OrderItem;
+import com.edemarcos.tcc.domain.product.dataproviders.ProductDataProvider;
 import com.edemarcos.tcc.domain.product.entities.Product;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderItemMapperController {
 
+    private ProductDataProviderImpl productDataProvider;
+
+    public OrderItemMapperController(ProductDataProviderImpl productDataProvider) {
+        this.productDataProvider = productDataProvider;
+    }
+
     public OrderItem toOrderItem(OrderItemRequest orderItemRequest) {
         var orderItem = new OrderItem();
-        orderItem.setId(orderItemRequest.getProductId());
+        Product productModel = productDataProvider.findById(orderItemRequest.getProductId());
+
+        orderItem.setProduct(productModel);
         orderItem.setQuantity(orderItemRequest.getQuantity());
+
         return orderItem;
     }
 

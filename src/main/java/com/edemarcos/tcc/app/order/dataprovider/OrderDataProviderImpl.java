@@ -62,8 +62,8 @@ public class OrderDataProviderImpl implements OrderDataProvider {
     @Override
     public Order update(Order order) {
         OrderModel orderModel = orderMapper.toOrderModel(order);
-
-        return orderMapper.toOrder(orderRepository.save(orderModel));
+        var retorno = orderRepository.save(orderModel);
+        return orderMapper.toOrder(retorno);
     }
 
     @Override

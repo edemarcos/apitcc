@@ -5,15 +5,15 @@ import com.edemarcos.tcc.domain.product.entities.Product;
 public class OrderItem {
     private Long id;
     private Product product;
-    private Order order;
+    private Long orderId;
     private int quantity;
     private Double unitPrice;
     private Double totalItem;
 
-    public OrderItem(Long id, Product product, Order order, int quantity, Double unitPrice, Double totalItem) {
+    public OrderItem(Long id, Product product, Long orderId, int quantity, Double unitPrice, Double totalItem) {
         this.id = id;
         this.product = product;
-        this.order = order;
+        this.orderId = orderId;
         this.quantity = quantity;
         this.unitPrice = unitPrice;
         this.totalItem = totalItem;
@@ -38,12 +38,12 @@ public class OrderItem {
         this.product = product;
     }
 
-    public Order getOrder() {
-        return order;
+    public Long getOrderId() {
+        return orderId;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 
     public int getQuantity() {

@@ -20,9 +20,9 @@ public class OrderItemModel {
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private ProductModel product;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id", referencedColumnName = "id")
-    private OrderModel order;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    private Long orderId;
 
     private int quantity;
     private Double unitPrice;

@@ -54,7 +54,7 @@ public class InsertOrderUseCaseImpl implements InsertOrderUseCase {
         order.setOrderDate(LocalDateTime.now());
         var orderInserted = orderDataProvider.insert(order);
 
-        orderItems.stream().forEach(orderItem -> orderItem.setOrder(orderInserted));
+        orderItems.stream().forEach(orderItem -> orderItem.setOrderId(orderInserted.getId()));
 
         orderInserted.setOrderItems(orderDataProvider.insertOrderItems(orderItems));
 
