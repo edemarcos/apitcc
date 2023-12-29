@@ -1,5 +1,6 @@
 package com.edemarcos.tcc.app.config;
 
+import com.edemarcos.tcc.app.order.dataprovider.mapper.OrderItemMapper;
 import com.edemarcos.tcc.app.order.entrypoint.mapper.OrderMapperController;
 import com.edemarcos.tcc.domain.customer.dataproviders.CustomerDataProvider;
 import com.edemarcos.tcc.domain.customer.usecases.FindByIdCustomerUseCase;
@@ -58,4 +59,5 @@ public class OrderConfig {
     ) {
         return new UpdateOrderUseCaseImpl(orderDataProvider, findByIdCustomerUseCase, findByIdUserUseCase, getProductOrderUseCase);
     }
+
 }

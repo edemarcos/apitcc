@@ -14,10 +14,6 @@ import com.edemarcos.tcc.domain.user.usecases.FindByIdUserUseCase;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class UpdateOrderUseCaseImpl implements UpdateOrderUseCase {
     private OrderDataProvider orderDataProvider;
@@ -39,10 +35,8 @@ public class UpdateOrderUseCaseImpl implements UpdateOrderUseCase {
     @Override
     public Order execute(Order order, Long id) {
         Order orderOfUpdate = orderDataProvider.findById(id);
-        //talvez isso não precise
-        var orderItemsUpdate = orderDataProvider.findOrderItemsByOrderId(id);
 
-        //var orderItemsUpdate = orderOfUpdate.getOrderItems();
+        var orderItemsUpdate = orderOfUpdate.getOrderItems();
         if (orderOfUpdate == null) {
             throw new OrderInsertionException("O pedido informado não existe.");
         }

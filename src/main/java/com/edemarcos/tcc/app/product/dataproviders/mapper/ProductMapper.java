@@ -6,8 +6,8 @@ import com.edemarcos.tcc.app.supplier.dataproviders.mapper.SupplierMapper;
 import com.edemarcos.tcc.domain.product.entities.Product;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class ProductMapper {
@@ -51,10 +51,6 @@ public class ProductMapper {
     }
 
     public List<Product> toProductList(List<ProductModel> productModelList) {
-        var productList = new ArrayList<Product>();
-        for (ProductModel productModel : productModelList) {
-            productList.add(toProduct(productModel));
-        }
-        return productList;
+        return productModelList.stream().map(this::toProduct).collect(Collectors.toList());
     }
 }
